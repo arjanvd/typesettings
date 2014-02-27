@@ -17,6 +17,7 @@ $base-line-multi: 4;
 $base-font-size: 16px;
 $ms-ratio: 1.414;
 $paragraph-indent: false;
+$paragraph-justify: true;
 
 @import "typesetting";
 @import "logo-icon";
@@ -145,14 +146,11 @@ a {
   color: #000;
 }
 
-.limit-measure {
+.main-container {
+  padding: 0 emRhythm(3);
   max-width: emRhythm(96);
   margin-left: auto;
   margin-right: auto;
-}
-
-.main-container {
-  padding: 0 emRhythm(3);
 }
 
 article {
@@ -182,7 +180,6 @@ article {
 }
 
 .gist {
-  max-width: emRhythm(150);
   margin-left: auto;
   margin-right: auto;
   margin-bottom: emRhythm(4, $ms-down1);
