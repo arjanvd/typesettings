@@ -175,6 +175,7 @@ code {
   background-color: lighten(#000, 90%);
   padding: emRhythm(1, $ms-down1);
   border-radius: 4px;
+  word-wrap: break-word;
 }
 
 .to-top {
@@ -198,6 +199,10 @@ code {
     display: inline-block;
     height: emRhythm(4);
   }
+}
+
+.fa {
+  margin-left: emRhythm(0.5);
 }
 
 .gist {
