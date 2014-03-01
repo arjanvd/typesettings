@@ -22,12 +22,14 @@ $paragraph-justify: true;
 @import "typesetting";
 @import "logo-icon";
 
+$brand-color: #c85557;
+
 h1, .h2, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
   color: #000;
 }
 
 .header-container, .footer-container {
-  background-color: #c85557;
+  background-color: $brand-color;
   color: #000;
   font-family: $font-sans;
   text-align: center;
@@ -80,13 +82,13 @@ h1, .h2, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
   p {
     max-width: none;
     text-align: center;
-    margin-bottom: 0;
+    margin-bottom: emRhythm(2, $ms-down1);
     @include setType(3, $ms-down1);
   }
 }
 
 a {
-  color: invert($text-color);
+  color: $brand-color;
 
   &:link, &:active {
     text-decoration: none;
@@ -168,6 +170,13 @@ article {
   }
 }
 
+code {
+  font-size: $ms-down1;
+  background-color: lighten(#000, 90%);
+  padding: emRhythm(1, $ms-down1);
+  border-radius: 4px;
+}
+
 .to-top {
   text-align: center;
 }
@@ -177,6 +186,18 @@ article {
   background: #ccc;
   color: #000;
   padding: 0.2em 0;
+}
+
+.social-buttons {
+  list-style: none;
+  margin-bottom: emRhythm(2);
+  margin-left: 0;
+  height: emRhythm(4);
+
+  li {
+    display: inline-block;
+    height: emRhythm(4);
+  }
 }
 
 .gist {
