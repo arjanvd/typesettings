@@ -24,6 +24,35 @@
 // Use this variables to customize your Typesettings. Or take the whole thing
 // apart if you want :)
 
+// Don't touch these values. You'll need them for different ratios in one
+// stylesheet, for example when you want a different ratio for mobile.
+
+$ms-ratio {
+     ms1-4: 4;     // double octave
+     ms1-3: 3;     // major twelve
+     ms3-8: 2.6667 // major eleventh
+     ms2-5: 2.5;   // major tenth
+     ms1-2: 2;     // octave
+    ms8-15: 1.875; // major seventh
+    ms9-16: 1.778; // minor seventh
+     ms3-5: 1.667; // major sixth
+  msgolden: 1.618; // golden section
+     ms5-8: 1.6;   // minor sixth
+     ms2-3: 1.5;   // perfect fifth;
+   ms1-sq2: 1.414; // augmented fourth
+     ms3-4: 1.333; // perfect fourth
+     ms4-5: 1.25;  // major third
+     ms5-6: 1.2;   // minor third
+     ms8-9: 1.125; // major second
+   ms15-16: 1.067; // minor second
+}
+
+// Helper function for typing less. I.e. ms-ratio(ms1-2)
+@function ms-ratio($label) {
+    @return map-get($ms-ratio,$label);
+}
+
+
 // Font families and default text color.
 $font-sans: 'Helvetica Neue', Helvetica, Arial, sans-serif !default;
 $font-serif: Georgia, 'Times New Roman', serif !default;
@@ -43,9 +72,6 @@ $base-line-multi: 4 !default;
 // Base font size in pixels.
 $base-font-size: 16px !default;
 
-// Modular scale ratio that is used to figure out all the different font sizes
-$ms-ratio: 1.414 !default;
-
 // [1] Paragraph setting that you can turn on or off the indent of the first line
 // of a new paragraph.
 // [2] Paragraph setting that you can turn on or off to have your paragraphs ragged
@@ -59,7 +85,7 @@ $load-typesetted: true !default;
 //==============================================================================
 // Internal Variables
 //==============================================================================
-// It's Best not to adjust the internal variables directly.[Note]
+// It's best not to adjust the internal variables directly.[Note]
 
 // Creates a handy variable for the 1em
 $base-em-font-size: 1em;
@@ -73,52 +99,48 @@ $base-em-font-size: 1em;
 // [5] Two steps up in the modular scale in EMs
 // [6] Three steps up in the modular scale in EMs
 // [7] Four steps up in the modular scale in EMs
-$ms-down1: $base-em-font-size / $ms-ratio; // [1]
-$ms-down2: $ms-down1 /$ms-ratio; // [2]
-$ms-down3: $ms-down2 / $ms-ratio; // [3]
-$ms-up1: $base-em-font-size * $ms-ratio; // [4]
-$ms-up2: $ms-up1 * $ms-ratio; // [5]
-$ms-up3: $ms-up2 * $ms-ratio; // [6]
-$ms-up4: $ms-up3 * $ms-ratio; // [7]
 
-// Warning text for when an integer is not used in rhythm functions
-$not-integer-txt: ' value breaks vertical rhythm. Use an interger (whole number) for $lines.';
+// ** TODO: explanation
+
+$ms-base:  $base-em-font-size;
+$ms-down1: $ms-base / ms-ratio(ms3-4); // [1]
+$ms-down2: $ms-down1 / ms-ratio(ms3-4);
+$ms-up1:   $ms-base * ms-ratio(ms3-4);
+$ms-up2:   $ms-up1 * ms-ratio(ms3-4);
+$ms-up3:   $ms-up2 * ms-ratio(ms3-4);
+$ms-up4:   $ms-up3 * ms-ratio(ms3-4);
+$ms-up5:   $ms-up4 * ms-ratio(ms3-4);
 
 //==============================================================================
 // Helper function(s)
 //==============================================================================
 
-// Check if value is an integer and returns true or false
-@function is-int($number) {
-  @return type-of($number) == number and floor(abs($number)) == abs($number);
-}
-
 // Returns a number without a unit. For example 16px becomes 16
-@function stripUnits($number) {
+@function strip-units($number) {
   @return $number / ($number * 0 + 1);
 }
 
 // Returns an EM value. For example 24px becomes 1.5em
-@function emCalc($target, $context: $base-font-size) {
-  @return stripUnits(($target / $context)) + 0em;
+@function em-calc($target, $context: $base-font-size) {
+  @return strip-units(($target / $context)) + 0em;
 }
 
 // Returns an EM value that is a multiple of our defined base vertical unit. For
 // example 3 becomes 1.125em
-@function emRhythm($lines: $base-vertical-unit, $font-size: $base-em-font-size) {
+@function vr($lines: $base-vertical-unit, $font-size: $base-em-font-size) {
   @if is-int($lines) == false {
     @warn  #{$lines} + $not-integer-txt;
   }
-  @return (stripUnits($lines) * stripUnits($base-vertical-unit)) / (stripUnits($font-size) * stripUnits($base-font-size)) + 0em;
+  @return (strip-units($lines) * strip-units($base-vertical-unit)) / (strip-units($font-size) * strip-units($base-font-size)) + 0em;
 }
 
 // Returns a unitless number that is a multiple of our defined base vertical unit.
 // For example 3 becomes 1.125
-@function unitlessRhythm($lines: $base-line-multi, $font-size: $base-em-font-size) {
+@function unitless-rhythm($lines: $base-line-multi, $font-size: $base-em-font-size) {
   @if is-int($lines) == false {
     @warn #{$lines} + $not-integer-txt;
   }
-  @return ($lines * stripUnits($base-vertical-unit)) / (stripUnits($font-size) * stripUnits($base-font-size));
+  @return ($lines * strip-units($base-vertical-unit)) / (strip-units($font-size) * strip-units($base-font-size));
 }
 
 //==============================================================================
@@ -129,35 +151,35 @@ $not-integer-txt: ' value breaks vertical rhythm. Use an interger (whole number)
 
 // Sets the type in EMs and makes a vertical rhythm unitless line-height that is
 // based on context.
-@mixin setType($lines: $base-line-multi, $font-size: $base-em-font-size) {
+@mixin set-type($lines: $base-line-multi, $font-size: $ms-base) {
   font-size: $font-size;
-  line-height: unitlessRhythm($lines, $font-size);
+  line-height: unitless-rhythm($lines, $font-size);
 }
 
 // Creates a vertical rhythm unitless line-height that is based on context
-@mixin setLeading($lines: $base-line-multi, $font-size: $base-em-font-size) {
-  line-height: unitlessRhythm($lines, $font-size);
+@mixin set-leading($lines: $base-line-multi, $font-size: $ms-base) {
+  line-height: unitless-rhythm($lines, $font-size);
 }
 
 // Creates a pixel width border top with padding that is a multiple of the base
 // vertical grid unit. You will need to set border style and color rules.
-@mixin rhythmBorderTop($border-width: 1px, $lines: $base-line-multi, $font-size: $base-em-font-size) {
+@mixin vr-border-top($border-width: 1px, $lines: $base-line-multi, $font-size: $ms-base) {
   border-top-width: $border-width;
-  padding-top: (($lines * stripUnits($base-vertical-unit)) - stripUnits($border-width)) / (stripUnits($font-size) * stripUnits($base-font-size)) + 0em;
+  padding-top: (($lines * strip-units($base-vertical-unit)) - strip-units($border-width)) / (strip-units($font-size) * strip-units($base-font-size)) + 0em;
 }
 
 // Creates a pixel width border bottom with padding that is a multiple of the base
 // vertical grid unit. You will need to set border style and color rules.
-@mixin rhythmBorderBottom($border-width: 1px, $lines: $base-line-multi, $font-size: $base-em-font-size) {
+@mixin vr-border-bottom($border-width: 1px, $lines: $base-line-multi, $font-size: $ms-base) {
   border-bottom-width: $border-width;
-  padding-bottom: (($lines * stripUnits($base-vertical-unit)) - stripUnits($border-width)) / (stripUnits($font-size) * stripUnits($base-font-size)) + 0em;
+  padding-bottom: (($lines * strip-units($base-vertical-unit)) - strip-units($border-width)) / (strip-units($font-size) * strip-units($base-font-size)) + 0em;
 }
 
 // Creates a pixel width border with padding that is a multiple of the base
 // vertical grid unit. You will need to set border style and color rules.
-@mixin rhythmBorder($border-width: 1px, $lines: $base-line-multi, $font-size: $base-em-font-size) {
+@mixin rhythmBorder($border-width: 1px, $lines: $base-line-multi, $font-size: $ms-base) {
   border-width: $border-width;
-  padding: (($lines * stripUnits($base-vertical-unit)) - stripUnits($border-width)) / (stripUnits($font-size) * stripUnits($base-font-size)) + 0em;
+  padding: (($lines * strip-units($base-vertical-unit)) - strip-units($border-width)) / (strip-units($font-size) * strip-units($base-font-size)) + 0em;
 }
 
 // Creates base type baseline overlay and vertical unit overlay.
