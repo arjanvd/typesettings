@@ -90,26 +90,36 @@ $load-typesetted: true !default;
 // Creates a handy variable for the 1em
 $base-em-font-size: 1em;
 
-// Generates modular scale values in Ems. [Note]If you need more size up and/or down
+// Generates modular scale values in Ems. [Note] If you need more size up and/or down
 // then add more sizes.
-// [1] One step down in the modular scale in EMs
-// [2] Two steps down in the modular scale in EMs
-// [3] Three steps down in the modular scale in EMs
-// [4] One step up in the modular scale in EMs
-// [5] Two steps up in the modular scale in EMs
-// [6] Three steps up in the modular scale in EMs
-// [7] Four steps up in the modular scale in EMs
+// [1] Base font-size in the modular scale in em's
+// [2] One step down in the modular scale in em's
+// [3] Two steps down in the modular scale in em's
+// [4] One step up in the modular scale in em's
+// [5] Two steps up in the modular scale in em's
+// [6] Three steps up in the modular scale in em's
+// [7] Four steps up in the modular scale in em's
+// [8] Five steps up in the modular scale in em's
 
-// ** TODO: explanation
+$ms-base:  $base-em-font-size; // [1]
+$ms-down1: $ms-base / ms-ratio(ms3-4); // [2]
+$ms-down2: $ms-down1 / ms-ratio(ms3-4); // [3]
+$ms-up1:   $ms-base * ms-ratio(ms3-4); // [4]
+$ms-up2:   $ms-up1 * ms-ratio(ms3-4); // [5]
+$ms-up3:   $ms-up2 * ms-ratio(ms3-4); // [6]
+$ms-up4:   $ms-up3 * ms-ratio(ms3-4); // [7]
+$ms-up5:   $ms-up4 * ms-ratio(ms3-4); // [8]
 
-$ms-base:  $base-em-font-size;
-$ms-down1: $ms-base / ms-ratio(ms3-4); // [1]
-$ms-down2: $ms-down1 / ms-ratio(ms3-4);
-$ms-up1:   $ms-base * ms-ratio(ms3-4);
-$ms-up2:   $ms-up1 * ms-ratio(ms3-4);
-$ms-up3:   $ms-up2 * ms-ratio(ms3-4);
-$ms-up4:   $ms-up3 * ms-ratio(ms3-4);
-$ms-up5:   $ms-up4 * ms-ratio(ms3-4);
+// When you need more than one set of modular scale values, create more variables
+
+$m-ms-base:  $base-em-font-size; // [1]
+$m-ms-down1: $ms-base / ms-ratio(ms8-9); // [2]
+$m-ms-down2: $ms-down1 / ms-ratio(ms8-9); // [3]
+$m-ms-up1:   $ms-base * ms-ratio(ms8-9); // [4]
+$m-ms-up2:   $ms-up1 * ms-ratio(ms8-9); // [5]
+$m-ms-up3:   $ms-up2 * ms-ratio(ms8-9); // [6]
+$m-ms-up4:   $ms-up3 * ms-ratio(ms8-9); // [7]
+$m-ms-up5:   $ms-up4 * ms-ratio(ms8-9); // [8]
 
 //==============================================================================
 // Helper function(s)
