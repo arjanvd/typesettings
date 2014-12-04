@@ -24,35 +24,6 @@
 // Use this variables to customize your Typesettings. Or take the whole thing
 // apart if you want :)
 
-// Don't touch these values. You'll need them for different ratios in one
-// stylesheet, for example when you want a different ratio for mobile.
-
-$ms-ratio: (
-     ms1-4: 4,     // double octave
-     ms1-3: 3,     // major twelve
-     ms3-8: 2.6667, // major eleventh
-     ms2-5: 2.5,   // major tenth
-     ms1-2: 2,     // octave
-    ms8-15: 1.875, // major seventh
-    ms9-16: 1.778, // minor seventh
-     ms3-5: 1.667, // major sixth
-  msgolden: 1.618, // golden section
-     ms5-8: 1.6,   // minor sixth
-     ms2-3: 1.5,   // perfect fifth;
-   ms1-sq2: 1.414, // augmented fourth
-     ms3-4: 1.333, // perfect fourth
-     ms4-5: 1.25,  // major third
-     ms5-6: 1.2,   // minor third
-     ms8-9: 1.125, // major second
-   ms15-16: 1.067 // minor second
-);
-
-// Helper function for typing less. I.e. ms-ratio(ms1-2)
-@function ms-ratio($label) {
-    @return map-get($ms-ratio,$label);
-}
-
-
 // Font families and default text color.
 $font-sans: 'Helvetica Neue', Helvetica, Arial, sans-serif !default;
 $font-serif: Georgia, 'Times New Roman', serif !default;
@@ -86,6 +57,34 @@ $load-typesetted: true !default;
 // Internal Variables
 //==============================================================================
 // It's best not to adjust the internal variables directly.[Note]
+
+// Don't touch these values. You'll need them for different ratios in one
+// stylesheet, for example when you want a different ratio for mobile.
+
+$ms-ratio: (
+     ms1-4: 4,     // double octave
+     ms1-3: 3,     // major twelve
+     ms3-8: 2.6667, // major eleventh
+     ms2-5: 2.5,   // major tenth
+     ms1-2: 2,     // octave
+    ms8-15: 1.875, // major seventh
+    ms9-16: 1.778, // minor seventh
+     ms3-5: 1.667, // major sixth
+  msgolden: 1.618, // golden section
+     ms5-8: 1.6,   // minor sixth
+     ms2-3: 1.5,   // perfect fifth;
+   ms1-sq2: 1.414, // augmented fourth
+     ms3-4: 1.333, // perfect fourth
+     ms4-5: 1.25,  // major third
+     ms5-6: 1.2,   // minor third
+     ms8-9: 1.125, // major second
+   ms15-16: 1.067 // minor second
+);
+
+// Helper function for typing less. I.e. ms-ratio(ms1-2)
+@function ms-ratio($label) {
+    @return map-get($ms-ratio,$label);
+}
 
 // Creates a handy variable for the 1em
 $base-em-font-size: 1em;
